@@ -19,20 +19,12 @@ public class Leetcode1049 {
         }
         int target=sum/2;
         //dp[i][j]表示下表为0-i的石头,让如j的背包中的最大价值
-        int[][] dp=new int[n][target+1];
-        //初始化只去第一个石头的最大价值的数组
-        for (int i = stones[0]; i <=target ; i++) {
-            dp[0][i]=stones[0];
-        }
-        for (int i = 1; i < n; i++) {
-            for (int j = 0; j <=target; j++) {
-                if (j<stones[i]) {
-                    dp[i][j]=dp[i-1][j];
-                }else{
-                    dp[i][j]=Math.max(dp[i-1][j],dp[i-1][j-stones[i]]+stones[i]);
-                }
+        int[] dp=new int[target+1];
+        for (int i = 0; i < n; i++) {
+            for (int j = target; j >=stones[i]; j--) {
+                dp[j]=Math.max(dp[j],dp[j-stones[i]]+stones[i]);
             }
         }
-        return sum-dp[n-1][target]-dp[n-1][target];
+        return sum-dp[target]-dp[target];
     }
 }
